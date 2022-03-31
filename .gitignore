@@ -1,7 +1,7 @@
 /dict2.txt
 /dictS.txt
 /dictT.txt
-/main.exe
+*.exe
 /slowa.txt
 /testDict.txt
-/wordle.exe
+/newWordList.txt

@@ -35,6 +35,7 @@ bool containLeter(const string& word, const string& letters)
     return false;
 }
 
+//contain single character
 bool containLeter(const string& word, const char c)
 {
     if (word.find(c) != string::npos)
@@ -157,6 +158,7 @@ void filterByMask(list<string>& dict, const string& mask)
     }
 }
 
+//check if specifik leters apear on specifik position
 bool checkWordPos(const string& word)
 {
     for (size_t i = 0; i < 5; i++)
@@ -170,6 +172,7 @@ bool checkWordPos(const string& word)
     
 }
 
+//filter word list by checking letters position in word
 void filterByPos(list<string>& dict)
 {
     for (auto it = dict.begin(); it != dict.end(); it++)
@@ -317,7 +320,7 @@ float scoreWord(const string& word)
             case 'w':
                 sum+=4.65;
                 break;
-            case 'x':
+            case 'x'://
                 sum+=0.02;
                 break;
             case 'y':
@@ -332,9 +335,96 @@ float scoreWord(const string& word)
     return sum;
 }
 //test funcion
+uint32_t scoreWord2(const string& word)
+{
+    uint32_t score=0;
+    for (auto &c : word)
+    {
+        switch (c)
+        {
+        case 'x':
+            score|=1;
+            break;
+        case 'v':
+            score|=(1<<1);
+            break;
+        case 'f':
+            score|=(1<<2);
+            break;
+        case 'h':
+            score|=(1<<3);
+            break;
+        case 'g':
+            score|=(1<<4);
+            break;
+        case 'b':
+            score|=(1<<5);
+            break;
+        case 'l':
+            score|=(1<<6);
+            break;
+        case 'j':
+            score|=(1<<7);
+            break;
+        case 'u':
+            score|=(1<<8);
+            break;
+        case 'm':
+            score|=(1<<9);
+            break;
+        case 'p':
+            score|=(1<<10);
+            break;
+        case 'd':
+            score|=(1<<11);
+            break;
+        case 'k':
+            score|=(1<<12);
+            break;
+        case 'y':
+            score|=(1<<13);
+            break;
+        case 'c':
+            score|=(1<<14);
+            break;
+        case 't':
+            score|=(1<<15);
+            break;
+        case 's':
+            score|=(1<<16);
+            break;
+        case 'w':
+            score|=(1<<17);
+            break;
+        case 'r':
+            score|=(1<<18);
+            break;
+        case 'n':
+            score|=(1<<19);
+            break;
+        case 'z':
+            score|=(1<<20);
+            break;
+        case 'e':
+            score|=(1<<21);
+            break;
+        case 'o':
+            score|=(1<<22);
+            break;
+        case 'i':
+            score|=(1<<23);
+            break;
+        case 'a':
+            score|=(1<<24);
+            break;
+        }
+    }
+    return score;
+}
+//test funcion
 bool compareWord(const string& w1, const string& w2)
 {
-    return ( scoreWord(w1) > scoreWord(w2) );
+    return ( scoreWord2(w1) > scoreWord2(w2) );
 }
 //test funcion
 void showPosBasedBanish()
@@ -349,42 +439,21 @@ int main()
 {
     SetConsoleOutputCP(CP_UTF8);
     setvbuf(stdout, nullptr, _IOFBF, 1000);
-    // _setmode(_fileno(stdout), _O_U16TEXT);
     cout<<"Hello"<<endl;
 
     string word,score;
     list<string> dict;
-    dict = loadDict("wordList.txt");   
+    dict = loadDict("wordList.txt");
+    dict.sort(compareWord);
 
     cout<<"type your guess\n";
     getline(cin,word);
     getline(cin,score);
-    // if (word == score)
-    // {
-    //     cout<<"match\n";
-    // }
-    // cout<<word.c_str()<<endl;
-    
-    // cout<<"this is your word: "<<" "<<word.size()<<endl;
-    // for (auto &i : word)
-    // {
-    //     cout<<(int)i<<endl;
-        
-    // }
-    // getline(cin,word);
-    // for (auto &i : word)
-    // {
-    //     cout<<(int)i<<endl;
-        
-    // }
-    // // cout<<"żółty"<<endl;
-    // cout<<word;
     
     while (score != "11111") 
     {
         processWord(word,score);
         cout<<"Banned letters: \""<<banish<<"\" accepted letters: \""<<accepted<<"\" word mask: "<<mask<<'\n';
-        // showPosBasedBanish();
         banishLeters(dict,banish);
         acceptLeters(dict,accepted);
         filterByPos(dict);
@@ -394,10 +463,7 @@ int main()
         cout<<"\nnext gues\n";
         cin>>word>>score;
     }
-    // saveDict(dict,"testDict.txt");
-    // cout<<accepted<<" "<<banish<<" "<<mask<<'\n';
     cout<<"END\n";
     
-
     return 0;
 }
